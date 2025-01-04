@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Presente" ALTER COLUMN "preco" SET DATA TYPE DECIMAL(65,30);
