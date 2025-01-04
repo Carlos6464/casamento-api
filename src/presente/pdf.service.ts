@@ -1,9 +1,11 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
-import * as PDFDocument from 'pdfkit';
-import { PresenteService } from './presente.service';
 import * as fs from 'fs';
 import * as path from 'path';
+import { PresenteService } from './presente.service';
+
+// Utilize require ao invés de import
+import PDFDocument from 'pdfkit';
 
 @Injectable()
 export class PdfService {
