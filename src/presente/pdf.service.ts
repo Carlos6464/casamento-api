@@ -10,18 +10,20 @@ export class PdfService {
   constructor(private readonly presenteService: PresenteService) {}
 
   async generateConfirmedGiftsReport(): Promise<string> {
+    console.log('Iniciando geração do relatório');
+
     const presentes = await this.presenteService.findConfirmedGifts();
 
-    // Caminho do diretório temporário (Vercel usa /tmp)
+    // Caminho do arquivo temporário (utilizando /tmp em Vercel)
     const filePath = path.join(
       '/tmp',
       `presentes-confirmados-${Date.now()}.pdf`,
     );
+    console.log('Caminho do arquivo temporário:', filePath);
 
     // Criação do PDF
     const doc = new PDFDocument({ margin: 50 });
     const writeStream = fs.createWriteStream(filePath);
-
     doc.pipe(writeStream);
 
     // Cabeçalho
@@ -47,8 +49,14 @@ export class PdfService {
     doc.end();
 
     return new Promise((resolve, reject) => {
-      writeStream.on('finish', () => resolve(filePath)); // Retorna o caminho do arquivo gerado
-      writeStream.on('error', (err) => reject(err)); // Trata erros
+      writeStream.on('finish', () => {
+        console.log('Relatório gerado com sucesso:', filePath);
+        resolve(filePath);
+      });
+      writeStream.on('error', (err) => {
+        console.error('Erro ao gerar relatório:', err);
+        reject(err);
+      });
     });
   }
 }
