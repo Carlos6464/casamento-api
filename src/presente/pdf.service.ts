@@ -12,17 +12,11 @@ export class PdfService {
   async generateConfirmedGiftsReport(): Promise<string> {
     const presentes = await this.presenteService.findConfirmedGifts();
 
-    // Caminho do diretório e do arquivo
-    const directoryPath = path.join(__dirname, '..', 'relatorios');
+    // Caminho do diretório temporário (Vercel usa /tmp)
     const filePath = path.join(
-      directoryPath,
+      '/tmp',
       `presentes-confirmados-${Date.now()}.pdf`,
     );
-
-    // Verifique se o diretório existe, senão crie-o
-    if (!fs.existsSync(directoryPath)) {
-      fs.mkdirSync(directoryPath, { recursive: true });
-    }
 
     // Criação do PDF
     const doc = new PDFDocument({ margin: 50 });
@@ -53,8 +47,8 @@ export class PdfService {
     doc.end();
 
     return new Promise((resolve, reject) => {
-      writeStream.on('finish', () => resolve(filePath));
-      writeStream.on('error', (err) => reject(err));
+      writeStream.on('finish', () => resolve(filePath)); // Retorna o caminho do arquivo gerado
+      writeStream.on('error', (err) => reject(err)); // Trata erros
     });
   }
 }
