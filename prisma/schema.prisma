@@ -29,7 +29,7 @@ model Recado {
   id        Int      @id @default(autoincrement())
   nome      String
   email     String
-  recado    String   @db.VarChar(200) // Define um limite de 255 caracteres
+  recado    String   @db.Text // Define um limite de 255 caracteres
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
