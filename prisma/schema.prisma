@@ -20,6 +20,7 @@ model Presente {
   preco      Decimal  @db.Decimal(10, 2) // 10 dígitos no total, 2 casas decimais
   nome_user  String?
   email_user String?
+  cpf_user   String?
   status     Boolean  @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now()) @updatedAt
