@@ -34,10 +34,10 @@ export class PdfService {
         .fontSize(12)
         .text(`Convidado: ${recado.nome}`)
         .text(`E-mail: ${recado.email || '---'}`)
-        .text(`Convidado: ${recado.recado || '---'}`)
         .text(
           `Data da Confirmação: ${recado.createdAt.toLocaleDateString('pt-BR')}`,
         )
+        .text(`Mensagem: ${recado.recado || '---'}`)
         .moveDown(1); // Espaçamento entre os itens da lista
     });
 
