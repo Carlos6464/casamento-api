@@ -1,5 +1,13 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Body, Patch, Param, Res } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Body,
+  Patch,
+  Param,
+  Res,
+  Query,
+} from '@nestjs/common';
 import { PresenteService } from './presente.service';
 import { PdfService } from './pdf.service';
 import { UpdatePresenteDto } from './dto/update-presente.dto';
@@ -41,5 +49,10 @@ export class PresenteController {
       console.error('Erro ao gerar relatório:', error);
       res.status(500).send('Erro ao gerar relatório');
     }
+  }
+
+  @Get('confirm')
+  async findAllConfirm(@Query('search') search?: string) {
+    return this.presenteService.findAllConfirm(search);
   }
 }

@@ -23,6 +23,9 @@ export class UpdatePresenteDto {
   @IsString()
   nome_user?: string;
 
+  @IsString()
+  cpf_user?: string;
+
   @IsEmail()
   email_user?: string;
 
