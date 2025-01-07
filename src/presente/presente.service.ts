@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UpdatePresenteDto } from './dto/update-presente.dto';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -59,7 +59,7 @@ export class PresenteService {
 
     // Verifica se o status já está `true`
     if (presenteAtual && presenteAtual.status === true) {
-      throw new Error(
+      throw new BadRequestException(
         'O presente já foi selecionado por um convidado, por favor selecione outro presente.',
       );
     }
