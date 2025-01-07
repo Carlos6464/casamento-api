@@ -51,9 +51,23 @@ export class PresenteService {
     return presentes; // Retorna os presentes encontrados
   }
 
-  update(id: number, updatePresenteDto: UpdatePresenteDto) {
+  async update(id: number, updatePresenteDto: UpdatePresenteDto) {
+    // Busca o presente pelo ID
+    const presenteAtual = await this.prismaService.presente.findUnique({
+      where: { id },
+    });
+
+    // Verifica se o status já está `true`
+    if (presenteAtual && presenteAtual.status === true) {
+      throw new Error(
+        'O presente já foi selecionado por um convidado, por favor selecione outro presente.',
+      );
+    }
+
+    // Atualiza o status para `true` e os demais campos
     updatePresenteDto.status = true;
-    const presente = this.prismaService.presente.update({
+
+    const presenteAtualizado = await this.prismaService.presente.update({
       data: {
         nome_user: updatePresenteDto.nome_user,
         email_user: updatePresenteDto.email_user,
@@ -65,7 +79,7 @@ export class PresenteService {
       },
     });
 
-    return presente;
+    return presenteAtualizado;
   }
 
   async findConfirmedGifts() {
