@@ -34,3 +34,14 @@ model Recado {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
+
+model Presenca {
+  id         Int      @id @default(autoincrement())
+  nome       String
+  email      String
+  telefone   String
+  qt_pessoas Int
+  status     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+}
