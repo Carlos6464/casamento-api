@@ -4,9 +4,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PresenteModule } from './presente/presente.module';
 import { RecadoModule } from './recado/recado.module';
+import { PresencaModule } from './presenca/presenca.module';
 
 @Module({
-  imports: [PresenteModule, RecadoModule],
+  imports: [PresenteModule, RecadoModule, PresencaModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -90,6 +90,7 @@ export class PresenteService {
         nome_user: true,
         email_user: true,
         createdAt: true,
+        updatedAt: true,
       },
     });
   }

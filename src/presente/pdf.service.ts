@@ -42,7 +42,7 @@ export class PdfService {
         .text(`Convidado: ${presente.nome_user || '---'}`)
         .text(`E-mail: ${presente.email_user || '---'}`)
         .text(
-          `Data da Confirmação: ${presente.createdAt.toLocaleDateString('pt-BR')}`,
+          `Data da Confirmação: ${presente.updatedAt.toLocaleDateString('pt-BR')}`,
         )
         .moveDown(1); // Espaçamento entre os itens da lista
     });

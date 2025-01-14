@@ -13,31 +13,32 @@ exports.PdfService = void 0;
 const common_1 = require("@nestjs/common");
 const fs = require("fs");
 const path = require("path");
-const presente_service_1 = require("./presente.service");
+const presenca_service_1 = require("./presenca.service");
 const pdfkit_1 = require("pdfkit");
 let PdfService = class PdfService {
-    constructor(presenteService) {
-        this.presenteService = presenteService;
+    constructor(presncaService) {
+        this.presncaService = presncaService;
     }
     async generateConfirmedGiftsReport() {
         console.log('Iniciando geração do relatório');
-        const presentes = await this.presenteService.findConfirmedGifts();
-        const filePath = path.join('/tmp', `presentes-confirmados-${Date.now()}.pdf`);
+        const presencas = await this.presncaService.findAll();
+        const filePath = path.join('/tmp', `presencas-${Date.now()}.pdf`);
         console.log('Caminho do arquivo temporário:', filePath);
         const doc = new pdfkit_1.default({ margin: 50 });
         const writeStream = fs.createWriteStream(filePath);
         doc.pipe(writeStream);
         doc
             .fontSize(18)
-            .text('Relatório de Presentes Confirmados', { align: 'center' })
+            .text('Presenças confirmadas', { align: 'center' })
             .moveDown(1.5);
-        presentes.forEach((presente, index) => {
+        presencas.forEach((presenca) => {
             doc
                 .fontSize(12)
-                .text(`${index + 1}. Produto: ${presente.nome}`)
-                .text(`Convidado: ${presente.nome_user || '---'}`)
-                .text(`E-mail: ${presente.email_user || '---'}`)
-                .text(`Data da Confirmação: ${presente.updatedAt.toLocaleDateString('pt-BR')}`)
+                .text(`Convidado: ${presenca.nome}`)
+                .text(`E-mail: ${presenca.email || '---'}`)
+                .text(`Telefone: ${this.formatTelefone(presenca.telefone) || '---'}`)
+                .text(`Quantidade de pessoas: ${presenca.qt_pessoas}`)
+                .text(`Data da Confirmação: ${presenca.createdAt.toLocaleDateString('pt-BR')}`)
                 .moveDown(1);
         });
         doc.end();
@@ -52,10 +53,22 @@ let PdfService = class PdfService {
             });
         });
     }
+    formatTelefone(telefone) {
+        if (!telefone)
+            return '---';
+        const cleaned = telefone.replace(/\D/g, '');
+        if (cleaned.length === 11) {
+            return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 7)}-${cleaned.slice(7)}`;
+        }
+        else if (cleaned.length === 10) {
+            return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 6)}-${cleaned.slice(6)}`;
+        }
+        return telefone;
+    }
 };
 exports.PdfService = PdfService;
 exports.PdfService = PdfService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [presente_service_1.PresenteService])
+    __metadata("design:paramtypes", [presenca_service_1.PresencaService])
 ], PdfService);
 //# sourceMappingURL=pdf.service.js.map
