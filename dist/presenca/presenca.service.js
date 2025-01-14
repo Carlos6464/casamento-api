@@ -25,7 +25,13 @@ let PresencaService = class PresencaService {
         });
         return presencas;
     }
-    create(createRecadoDto) {
+    async create(createRecadoDto) {
+        const convidado = await this.prismaService.presenca.findFirst({
+            where: { nome: createRecadoDto.nome },
+        });
+        if (convidado && convidado.status === true) {
+            throw new common_1.BadRequestException(`O convidado ${convidado.nome} já confirmou sua presenca.`);
+        }
         const createPresenca = this.prismaService.presenca.create({
             data: createRecadoDto,
         });

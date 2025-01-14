@@ -6,7 +6,8 @@ export declare class PresencaController {
     private readonly presencaService;
     private readonly pdfService;
     constructor(presencaService: PresencaService, pdfService: PdfService);
-    create(CreatePresenteDto: CreatePresenteDto): import(".prisma/client").Prisma.Prisma__PresencaClient<{
+    create(CreatePresenteDto: CreatePresenteDto): Promise<{
+        id: number;
         nome: string;
         email: string;
         telefone: string;
@@ -14,9 +15,9 @@ export declare class PresencaController {
         status: boolean;
         createdAt: Date;
         updatedAt: Date;
-        id: number;
-    }, never, import("@prisma/client/runtime/library").DefaultArgs>;
+    }>;
     findAll(): Promise<{
+        id: number;
         nome: string;
         email: string;
         telefone: string;
@@ -24,7 +25,6 @@ export declare class PresencaController {
         status: boolean;
         createdAt: Date;
         updatedAt: Date;
-        id: number;
     }[]>;
     generateReport(res: Response): Promise<void>;
 }

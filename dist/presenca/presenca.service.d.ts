@@ -13,7 +13,7 @@ export declare class PresencaService {
         createdAt: Date;
         updatedAt: Date;
     }[]>;
-    create(createRecadoDto: CreatePresenteDto): import(".prisma/client").Prisma.Prisma__PresencaClient<{
+    create(createRecadoDto: CreatePresenteDto): Promise<{
         id: number;
         nome: string;
         email: string;
@@ -22,5 +22,5 @@ export declare class PresencaService {
         status: boolean;
         createdAt: Date;
         updatedAt: Date;
-    }, never, import("@prisma/client/runtime/library").DefaultArgs>;
+    }>;
 }

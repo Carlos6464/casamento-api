@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreatePresenteDto } from './dto/create-presenca.dto';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -17,7 +17,18 @@ export class PresencaService {
     return presencas;
   }
 
-  create(createRecadoDto: CreatePresenteDto) {
+  async create(createRecadoDto: CreatePresenteDto) {
+    // Busca o presente pelo ID
+    const convidado = await this.prismaService.presenca.findFirst({
+      where: { nome: createRecadoDto.nome },
+    });
+
+    // Verifica se o status já está `true`
+    if (convidado && convidado.status === true) {
+      throw new BadRequestException(
+        `O convidado ${convidado.nome} já confirmou sua presenca.`,
+      );
+    }
     const createPresenca = this.prismaService.presenca.create({
       data: createRecadoDto,
     });
